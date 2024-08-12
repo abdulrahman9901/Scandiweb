@@ -1,0 +1,16 @@
+// _Product.scss
+.product {
+  padding: $padding-medium;
+  background-color: white;
+  text-align: center;
+}
+
+.product h3 {
+  font-size: 1.2em;
+  margin-bottom: $padding-small;
+}
+
+.product p {
+  margin: $padding-small 0;
+  color: $secondary-color;
+}

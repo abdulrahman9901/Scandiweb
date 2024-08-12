@@ -1,0 +1,48 @@
+// _ProductForm.scss
+.product_form-container{
+    flex-grow: 1;
+}
+#product_form {
+  display: flex;
+  flex-direction: column;
+  gap: $padding-medium;
+  padding: $padding-large;
+}
+
+#product_form input,
+#product_form select {
+  padding: $padding-small;
+  border: 1px solid $border-color;
+  border-radius: 4px;
+}
+
+#product_form label {
+    display: inline-block;
+    width: 130px;
+}
+#productType {
+  margin-bottom: $padding-medium;
+}
+
+#product_form .product-input-field {
+  margin-top: $padding-small;
+}
+.dynamic-field-container{
+  display: flex;
+  flex-direction: column;
+}
+#product_form button {
+  padding: $padding-small $padding-medium;
+  background-color: $primary-color;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+#product_form button:hover {
+  background-color: darken($primary-color, 10%);
+}
+
+.description {
+    margin: 30px;
+}

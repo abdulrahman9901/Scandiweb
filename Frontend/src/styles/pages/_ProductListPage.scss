@@ -1,0 +1,15 @@
+// _ProductListPage.scss
+.product-list-page {
+   @include apply-page-styles
+}
+
+.product-list-page h2 {
+  font-size: 1.8em;
+  margin-bottom: $padding-large;
+}
+
+.product-list-page .actions {
+  margin-bottom: $padding-medium;
+  display: flex;
+  justify-content: space-between;
+}

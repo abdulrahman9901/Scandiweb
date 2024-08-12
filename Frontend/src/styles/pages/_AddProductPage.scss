@@ -1,0 +1,14 @@
+// _AddProductPage.scss
+.add-product-page {
+  @include apply-page-styles
+}
+
+.add-product-page h2 {
+  font-size: 1.8em;
+  margin-bottom: $padding-large;
+}
+
+.add-product-page .form-container {
+  max-width: 600px;
+  margin: 0 auto;
+}

@@ -1,0 +1,46 @@
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: $padding-medium;
+  padding: $padding-large;
+}
+
+.product-list-item {
+  border: 1px solid $border-color;
+  padding: $padding-medium;
+  background-color: $background-color; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  margin: $padding-small;
+  max-width: 300px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  min-width: 200PX;
+}
+
+.product-list-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); 
+}
+
+.delete-checkbox {
+  margin-bottom: $padding-small;
+  align-self: start;
+  border: 2px solid #ccc; 
+  border-radius: 4px; 
+  width: 20px; 
+  height: 20px; 
+  position: relative; 
+  cursor: pointer; 
+  outline: none; 
+  transition: background-color 0.3s ease, border-color 0.3s ease; 
+}
+
+.delete-checkbox:checked {
+  background-color: #007bff;
+  border-color: #007bff;
+}
