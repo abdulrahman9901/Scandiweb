@@ -5,9 +5,6 @@ const path = require("path");
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Serve static files from the .well-known directory
-app.use("/.well-known", express.static(path.join(__dirname, ".well-known")));
-
 // Proxy any other requests to the target server
 app.use(
   "/api",
