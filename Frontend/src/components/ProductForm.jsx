@@ -36,6 +36,7 @@ const ProductForm = ({ product , setProduct }) => {
           <input
             type="text"
             name="sku"
+            id="sku"
             value={product.sku}
             onChange={handleChange}
             placeholder="SKU"
@@ -47,6 +48,7 @@ const ProductForm = ({ product , setProduct }) => {
           <input
             type="text"
             name="name"
+            id="name"
             value={product.name}
             onChange={handleChange}
             placeholder="Name"
@@ -58,6 +60,7 @@ const ProductForm = ({ product , setProduct }) => {
           <input
             type="number"
             name="price"
+            id="price"
             value={product.price}
             onChange={handleChange}
             placeholder="Price"
