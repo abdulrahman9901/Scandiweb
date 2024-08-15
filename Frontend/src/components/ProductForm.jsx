@@ -93,7 +93,7 @@ const ProductForm = ({ product , setProduct }) => {
               <label htmlFor="Size">Size (MB) </label>
               <input
                 type="number"
-                id="Size"
+                id="size"
                 name="Size"
                 value={product.attributes.Size || ""}
                 onChange={handleAttributeChange}
