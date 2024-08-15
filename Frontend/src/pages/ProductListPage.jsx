@@ -33,28 +33,13 @@ const ProductListPage = () => {
 
   return (
     <div className="product-list-page">
-      {/* <Header
-        title="Product List"
-        leftBtnAction={handleAddProduct}
-        leftBtnName="ADD"
-        rightBtnAction={handleDeleteSelected}
-        rightBtnName="MASS DELETE"
-      /> */}
       <header className="header">
         <h1>Product List</h1>
         <div className="btn-container">
-          <link className={"leftBtn"} onClick={leftBtnAction}>
-            {leftBtnName}
-          </link>
-          <link
-            className={classNames({
-              cancelBtn: rightBtnName === "Cancel",
-              rightBtn: rightBtnName === "MASS DELETE",
-            })}
-            onClick={rightBtnAction}
-          >
-            {rightBtnName}
-          </link>
+            <button onClick={() => handleAddProduct()}>ADD</button>
+            <button id="delete-product-btn" onClick={handleDeleteSelected}>
+              MASS DELETE
+            </button>
         </div>
       </header>
       <ProductList
