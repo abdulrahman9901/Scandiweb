@@ -21,6 +21,7 @@ const ProductList = React.memo(({ products = [], selectedSkus, setSelectedSkus }
             checked={selectedSkus.includes(product.sku)}
             onChange={() => handleCheckboxChange(product.sku)}
             className="delete-checkbox"
+            name="delete-checkbox[]"
           />
           <Product product={product} />
         </div>

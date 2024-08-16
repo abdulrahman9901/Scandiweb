@@ -63,13 +63,13 @@ const AddProductPage = () => {
         try{
           await addProduct(trimmedProduct);
           setNeedsRefetch(true);
+          navigate("/");
         }catch(error){
           const errorMessage =error.response?.data?.message || "An unexpected error occurred";
           setMsg(errorMessage);
           alertOpen();
         }
       }
-      navigate("/");
   };
 
   return (
