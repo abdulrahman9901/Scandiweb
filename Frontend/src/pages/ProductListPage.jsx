@@ -28,7 +28,7 @@ const ProductListPage = () => {
   };
 
   const handleAddProduct = () => {
-    navigate("/addproduct");
+    navigate("/add-product");
   };
 
   return (
@@ -36,10 +36,16 @@ const ProductListPage = () => {
       <header className="header">
         <h1>Product List</h1>
         <div className="btn-container">
-            <button onClick={() => handleAddProduct()}>ADD</button>
-            <button id="delete-product-btn" onClick={handleDeleteSelected}>
-              MASS DELETE
-            </button>
+          <button className="leftBtn" onClick={() => handleAddProduct()}>
+            ADD
+          </button>
+          <button
+            className="rightBtn"
+            id="delete-product-btn"
+            onClick={handleDeleteSelected}
+          >
+            MASS DELETE
+          </button>
         </div>
       </header>
       <ProductList

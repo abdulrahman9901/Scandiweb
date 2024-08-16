@@ -12,10 +12,10 @@ const Header = ({
     <header className="header">
       <h1>{title}</h1>
       <div className="btn-container">
-        <link className={"leftBtn"} onClick={leftBtnAction}>
+        <button className={"leftBtn"} onClick={leftBtnAction}>
           {leftBtnName}
-        </link>
-        <link
+        </button>
+        <button
           className={classNames({
             cancelBtn: rightBtnName === "Cancel",
             rightBtn: rightBtnName === "MASS DELETE",
@@ -23,7 +23,7 @@ const Header = ({
           onClick={rightBtnAction}
         >
           {rightBtnName}
-        </link>
+        </button>
       </div>
     </header>
   );
