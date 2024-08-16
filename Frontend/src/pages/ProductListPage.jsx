@@ -6,12 +6,12 @@ import { useData } from "../contexts/DataContext";
 import useFetchProducts from "../hooks/useFetchProducts";
 
 const ProductListPage = () => {
-  const [selectedSkus, setSelectedSkus] = useState([]);
-  const { setNeedsRefetch, needsRefetch } = useData();
-  const { products, isLoading } = useFetchProducts(
-    needsRefetch,
-    setNeedsRefetch
-  );
+ const [selectedSkus, setSelectedSkus] = useState([]);
+ const { setNeedsRefetch, needsRefetch } = useData();
+ const { products, isLoading } = useFetchProducts(
+   needsRefetch,
+   setNeedsRefetch
+ );
 
   const handleDeleteSelected = async () => {
     try {
@@ -57,7 +57,7 @@ const ProductListPage = () => {
         </div>
       </div>
       {isLoading ? (
-        <p>Loading products...</p> 
+        <p>Loading products...</p>
       ) : (
         <ProductList
           products={products}
