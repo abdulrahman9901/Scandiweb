@@ -3,6 +3,7 @@ import {getProducts } from "../services/productService";
 
 const useFetchProducts = (needsRefetch, setNeedsRefetch) => {
   const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -18,9 +19,11 @@ const useFetchProducts = (needsRefetch, setNeedsRefetch) => {
     if (needsRefetch || products.length === 0) {
       fetchProducts();
     }
+
+    setIsLoading(false);
   }, [needsRefetch, setNeedsRefetch, products.length]);
 
-  return products;
+  return {products , isLoading};
 };
 
 export default useFetchProducts;

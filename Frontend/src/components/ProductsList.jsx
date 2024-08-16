@@ -2,12 +2,7 @@
 import Product from "./Product";
 import React from "react";
 
-const ProductList = ({
-  products,
-  selectedSkus,
-  setSelectedSkus,
-}) => {
- 
+const ProductList = React.memo(({ products = [], selectedSkus, setSelectedSkus }) => {
 
   const handleCheckboxChange = (sku) => {
     setSelectedSkus((prevState) =>
@@ -32,6 +27,6 @@ const ProductList = ({
       ))}
     </main>
   );
-};
+});
 
 export default ProductList;

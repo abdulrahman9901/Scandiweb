@@ -8,7 +8,10 @@ import useFetchProducts from "../hooks/useFetchProducts";
 const ProductListPage = () => {
   const [selectedSkus, setSelectedSkus] = useState([]);
   const { setNeedsRefetch, needsRefetch } = useData();
-  const products = useFetchProducts(needsRefetch, setNeedsRefetch);
+  const { products, isLoading } = useFetchProducts(
+    needsRefetch,
+    setNeedsRefetch
+  );
 
   const handleDeleteSelected = async () => {
     try {
@@ -24,13 +27,17 @@ const ProductListPage = () => {
     }
   };
 
+  window.onload = () => {
+    const loadTime = performance.now(); // Measures the time it took to load the page
+    console.log(`Page load time: ${loadTime}ms`);
+  };
 
   return (
     <div className="product-list-page">
       <div className="header">
         <h1
           id="product-list-heading"
-          style={{ display: "block", visibility: "visible" , zIndex:"9999"}}
+          style={{ display: "block", visibility: "visible", zIndex: "9999" }}
         >
           Product List
         </h1>
@@ -49,11 +56,15 @@ const ProductListPage = () => {
           </button>
         </div>
       </div>
-      <ProductList
-        products={products}
-        selectedSkus={selectedSkus}
-        setSelectedSkus={setSelectedSkus}
-      />
+      {isLoading ? (
+        <p>Loading products...</p> 
+      ) : (
+        <ProductList
+          products={products}
+          selectedSkus={selectedSkus}
+          setSelectedSkus={setSelectedSkus}
+        />
+      )}
       <Footer />
     </div>
   );
