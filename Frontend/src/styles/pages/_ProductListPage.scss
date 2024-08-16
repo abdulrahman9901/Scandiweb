@@ -1,6 +1,7 @@
 // _ProductListPage.scss
 .product-list-page {
-   @include apply-page-styles
+  @include apply-page-styles ;
+  animation: none !important;
 }
 
 .product-list-page h2 {
@@ -13,3 +14,4 @@
   display: flex;
   justify-content: space-between;
 }
+

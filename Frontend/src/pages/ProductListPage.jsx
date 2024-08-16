@@ -28,7 +28,12 @@ const ProductListPage = () => {
   return (
     <div className="product-list-page">
       <div className="header">
-        <h1>Product List</h1>
+        <h1
+          id="product-list-heading"
+          style={{ display: "block", visibility: "visible" , zIndex:"9999"}}
+        >
+          Product List
+        </h1>
         <div className="btn-container">
           <a name="ADD" href="/add-product">
             <button name="ADD" className="leftBtn">
