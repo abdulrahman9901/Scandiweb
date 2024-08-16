@@ -4,7 +4,7 @@ import { deleteProducts} from "../services/productService";
 import Footer from "../components/Footer";
 import { useData } from "../contexts/DataContext";
 import useFetchProducts from "../hooks/useFetchProducts";
-
+import Header from "../components/Header";
 const ProductListPage = () => {
  const [selectedSkus, setSelectedSkus] = useState([]);
  const { setNeedsRefetch, needsRefetch } = useData();
@@ -34,28 +34,14 @@ const ProductListPage = () => {
 
   return (
     <div className="product-list-page">
-      <div className="header">
-        <h1
-          id="product-list-heading"
-          style={{ display: "block", visibility: "visible", zIndex: "9999" }}
-        >
-          Product List
-        </h1>
-        <div className="btn-container">
-          <a name="ADD" href="/add-product">
-            <button name="ADD" className="leftBtn">
-              ADD
-            </button>
-          </a>
-          <button
-            className="rightBtn"
-            id="delete-product-btn"
-            onClick={handleDeleteSelected}
-          >
-            MASS DELETE
-          </button>
-        </div>
-      </div>
+      <Header
+        title="Product List"
+        leftBtnAction={() => {}}
+        leftBtnName="ADD"
+        rightBtnAction={handleDeleteSelected}
+        rightBtnName="MASS DELETE"
+        ahref="/add-product"
+      />
       {isLoading ? (
         <p>Loading products...</p>
       ) : (
