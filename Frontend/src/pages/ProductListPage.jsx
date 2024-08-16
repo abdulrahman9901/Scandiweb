@@ -1,16 +1,13 @@
 import React, { useState } from "react";
 import ProductList from "../components/ProductsList";
 import { deleteProducts} from "../services/productService";
-import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
-import Header from "../components/Header";
 import { useData } from "../contexts/DataContext";
 import useFetchProducts from "../hooks/useFetchProducts";
 
 const ProductListPage = () => {
   const [selectedSkus, setSelectedSkus] = useState([]);
   const { setNeedsRefetch, needsRefetch } = useData();
-  const navigate = useNavigate();
   const products = useFetchProducts(needsRefetch, setNeedsRefetch);
 
   const handleDeleteSelected = async () => {
@@ -27,18 +24,17 @@ const ProductListPage = () => {
     }
   };
 
-  const handleAddProduct = () => {
-    navigate("/add-product");
-  };
 
   return (
     <div className="product-list-page">
-      <header className="header">
+      <div className="header">
         <h1>Product List</h1>
         <div className="btn-container">
-          <button className="leftBtn" onClick={() => handleAddProduct()}>
-            ADD
-          </button>
+          <a name="ADD" href="/add-product">
+            <button name="ADD" className="leftBtn">
+              ADD
+            </button>
+          </a>
           <button
             className="rightBtn"
             id="delete-product-btn"
@@ -47,7 +43,7 @@ const ProductListPage = () => {
             MASS DELETE
           </button>
         </div>
-      </header>
+      </div>
       <ProductList
         products={products}
         selectedSkus={selectedSkus}
