@@ -14,12 +14,13 @@ const ProductList = ({
         : [...prevState, sku]
     );
   };
+
   return (
     <form
       ref={formRef}
       className="product-list"
-      method="post" // Change to 'post'
-      onSubmit={handleDeleteSelected} // This handles the deletion logic
+      method="post" // Ensure that the backend expects POST data from this form
+      onSubmit={handleDeleteSelected} // Function to handle form submission
     >
       {products.map((product) => (
         <div className="product-list-item" key={product.sku}>
@@ -29,6 +30,8 @@ const ProductList = ({
           />
         </div>
       ))}
+      {/* Optional: Add a submit button if needed */}
+      <button type="submit">Delete Selected</button>
     </form>
   );
 };

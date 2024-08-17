@@ -1,23 +1,22 @@
 import React from "react";
 
 const Product = ({ product, handleCheckboxChange }) => {
-  let attributes = product.attributes;
+  const { sku, name, price, attributes } = product;
+
   return (
-    <div className="product" key={product.sku}>
+    <div className="product" key={sku}>
       <input
-        id="check"
         type="checkbox"
         name="selectedSkus"
-        // class="delete-checkbox"
-        value={product.sku}
-        //onChange={(e) => handleCheckboxChange(e, product.sku)} 
+        value={sku}
+        onChange={() => handleCheckboxChange(sku)} // Ensure this is uncommented
       />
-      <div>{product.sku}</div>
-      <div>{product.name}</div>
-      <div>{product.price} $</div>
+      <div>{sku}</div>
+      <div>{name}</div>
+      <div>{price} $</div>
       {Object.entries(attributes).map(([key, value]) => (
         <div key={key}>
-          {key}:{value}
+          {key}: {value}
         </div>
       ))}
     </div>

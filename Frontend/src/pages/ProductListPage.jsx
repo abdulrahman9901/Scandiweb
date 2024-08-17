@@ -1,6 +1,6 @@
-import React, { useState ,  useRef  } from "react";
+import React, { useState, useRef } from "react";
 import ProductList from "../components/ProductsList";
-import { deleteProducts} from "../services/productService";
+import { deleteProducts } from "../services/productService";
 import Footer from "../components/Footer";
 import { useData } from "../contexts/DataContext";
 import useFetchProducts from "../hooks/useFetchProducts";
@@ -15,6 +15,7 @@ const ProductListPage = () => {
   );
   const formRef = useRef(null); // Create a reference for the form
 
+  // Handler for mass deletion
   const handleMassDelete = () => {
     if (formRef.current) {
       handleDeleteSelected({
@@ -24,31 +25,26 @@ const ProductListPage = () => {
     }
   };
 
- const handleDeleteSelected = async (e) => {
-   e.preventDefault(); 
+  // Function to handle deletion of selected products
+  const handleDeleteSelected = async (e) => {
+    e.preventDefault();
 
-   const formData = new FormData(e.target);
-  
-   const selectedSkus = formData.getAll("selectedSkus");
-   console.log("selectedSkus:", selectedSkus);
+    const formData = new FormData(e.target);
+    const selectedSkus = formData.getAll("selectedSkus");
+    console.log("selectedSkus:", selectedSkus);
 
-   try {
-     if (selectedSkus.length > 0) {
-      deleteProducts(selectedSkus).then(()=>{
-        setSelectedSkus([]);
-        setNeedsRefetch(true); 
-      }).catch((error) => {
-        console.error("Error deleting products:", error);
-      });
-
-     } else {
-       console.log("No products selected for deletion.");
-     }
-   } catch (error) {
-     console.error("Failed to delete products:", error);
-   }
- };
-
+    try {
+      if (selectedSkus.length > 0) {
+        await deleteProducts(selectedSkus);
+        setSelectedSkus([]); // Clear selected SKUs after deletion
+        setNeedsRefetch(true); // Trigger a refetch of products
+      } else {
+        console.log("No products selected for deletion.");
+      }
+    } catch (error) {
+      console.error("Failed to delete products:", error);
+    }
+  };
 
   return (
     <div className="product-list-page">
