@@ -18,13 +18,14 @@ const ProductListPage = () => {
     try {
       if (selectedSkus.length > 0) {
         await deleteProducts(selectedSkus);
-        setSelectedSkus([]);
-        setNeedsRefetch(true);
       } else {
         alert("No products selected for deletion.");
       }
     } catch (error) {
       console.error("Failed to delete products:", error);
+    } finally{
+        setSelectedSkus([]);
+        setNeedsRefetch(true);
     }
   };
 

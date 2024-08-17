@@ -1,7 +1,7 @@
 import React from "react";
 import classNames from "classnames";
 
-const Header =  React.memo(({
+const Header =  ({
   title,
   leftBtnAction,
   leftBtnName,
@@ -27,11 +27,19 @@ const Header =  React.memo(({
           </button>
         )}
         {rightBtnName === "MASS DELETE" ? (
-          <form onSubmit={(e)=>rightBtnAction(e)}>
-            <button className="rightBtn" id="delete-product-btn" type="submit">
-              {rightBtnName}
-            </button>
-          </form>
+          // <form onSubmit={(e)=>rightBtnAction(e)}>
+          //   <button className="rightBtn" id="delete-product-btn" type="submit">
+          //     {rightBtnName}
+          //   </button>
+          // </form>
+          <input
+            type="submit"
+            className="rightBtn"
+            id="delete-product-btn"
+            value="MASS DELETE"
+            name="MASS DELETE"
+            onClick={rightBtnAction}
+          />
         ) : (
           <button className="Cancel" id="cancel-btn" onClick={rightBtnAction}>
             {rightBtnName}
@@ -52,6 +60,6 @@ const Header =  React.memo(({
       </div>
     </header>
   );
-});
+};
 
 export default Header;
