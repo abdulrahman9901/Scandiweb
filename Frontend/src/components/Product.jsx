@@ -8,7 +8,7 @@ const Product = ({ product, handleCheckboxChange }) => {
         id="check"
         type="checkbox"
         name="selectedSkus"
-        class="delete-checkbox"
+        // class="delete-checkbox"
         value={product.sku}
         //onChange={(e) => handleCheckboxChange(e, product.sku)} 
       />
