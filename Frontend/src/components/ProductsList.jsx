@@ -2,7 +2,7 @@
 import Product from "./Product";
 import React from "react";
 
-const ProductList = ({ products = [], setSelectedSkus }) => {
+const ProductList = React.memo(({ products = [], selectedSkus, setSelectedSkus }) => {
 
   const handleCheckboxChange = (sku) => {
     setSelectedSkus((prevState) =>
@@ -17,10 +17,10 @@ const ProductList = ({ products = [], setSelectedSkus }) => {
       {products.map((product) => (
         <div className="product-list-item" key={product.sku}>
           <input
-            id="check"
-            class="delete-checkbox"
             type="checkbox"
+            checked={selectedSkus.includes(product.sku)}
             onChange={() => handleCheckboxChange(product.sku)}
+            className="delete-checkbox"
             name="delete-checkbox[]"
           />
           <Product product={product} />
@@ -28,6 +28,6 @@ const ProductList = ({ products = [], setSelectedSkus }) => {
       ))}
     </main>
   );
-};
+});
 
 export default ProductList;
