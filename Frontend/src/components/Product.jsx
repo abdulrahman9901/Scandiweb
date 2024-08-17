@@ -1,9 +1,15 @@
 import React from "react";
 
-const Product = ({ product }) => {
-      let attributes = product.attributes;
+const Product = ({ product, handleCheckboxChange }) => {
+  let attributes = product.attributes;
   return (
     <div className="product" key={product.sku}>
+      <input
+        id="check"
+        class="delete-checkbox"
+        type="checkbox"
+        onChange={() => handleCheckboxChange(product.sku)}
+      />
       <div>{product.sku}</div>
       <div>{product.name}</div>
       <div>{product.price} $</div>
