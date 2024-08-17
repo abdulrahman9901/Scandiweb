@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 import { useData } from "../contexts/DataContext";
 import useFetchProducts from "../hooks/useFetchProducts";
 import Header from "../components/Header";
+
 const ProductListPage = () => {
   const [selectedSkus, setSelectedSkus] = useState([]);
   const { setNeedsRefetch, needsRefetch } = useData();
@@ -33,9 +34,13 @@ const ProductListPage = () => {
 
    try {
      if (selectedSkus.length > 0) {
-       await deleteProducts(selectedSkus); // Pass the array of SKUs for deletion
-       setSelectedSkus([]); // Clear selected SKUs
-       setNeedsRefetch(true); // Refetch product list after deletion
+      deleteProducts(selectedSkus).then(()=>{
+        setSelectedSkus([]);
+        setNeedsRefetch(true); 
+      }).catch((error) => {
+        console.error("Error deleting products:", error);
+      });
+
      } else {
        console.log("No products selected for deletion.");
      }
