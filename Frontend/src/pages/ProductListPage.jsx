@@ -13,7 +13,8 @@ const ProductListPage = () => {
    setNeedsRefetch
  );
 
-  const handleDeleteSelected = async () => {
+  const handleDeleteSelected = async (e) => {
+    e.preventDefault();
     try {
       if (selectedSkus.length > 0) {
         await deleteProducts(selectedSkus);
@@ -25,11 +26,6 @@ const ProductListPage = () => {
     } catch (error) {
       console.error("Failed to delete products:", error);
     }
-  };
-
-  window.onload = () => {
-    const loadTime = performance.now(); // Measures the time it took to load the page
-    console.log(`Page load time: ${loadTime}ms`);
   };
 
   return (

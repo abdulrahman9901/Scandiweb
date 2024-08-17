@@ -15,26 +15,40 @@ const Header =  React.memo(({
     <header className="header">
       <h1>{title}</h1>
       <div className="btn-container">
-       { leftBtnName === "ADD" ?
-        <a name={leftBtnName} href={ahref}>
+        {leftBtnName === "ADD" ? (
+          <a name={leftBtnName} href={ahref}>
+            <button className={"leftBtn"} onClick={leftBtnAction}>
+              {leftBtnName}
+            </button>
+          </a>
+        ) : (
           <button className={"leftBtn"} onClick={leftBtnAction}>
             {leftBtnName}
           </button>
-        </a> : 
-          <button className={"leftBtn"} onClick={leftBtnAction}>
-            {leftBtnName}
+        )}
+        {rightBtnName === "MASS DELETE" ? (
+          <form onSubmit={(e)=>rightBtnAction(e)}>
+            <button className="rightBtn" id="delete-product-btn" type="submit">
+              {rightBtnName}
+            </button>
+          </form>
+        ) : (
+          <button className="Cancel" id="cancel-btn" onClick={rightBtnAction}>
+            {rightBtnName}
           </button>
-        }
-        <button
+        )}
+        {/* <button
           className={classNames({
             cancelBtn: rightBtnName === "Cancel",
             rightBtn: rightBtnName === "MASS DELETE",
           })}
-          id={`${rightBtnName === "MASS DELETE" ? "delete-product-btn": "cancel-btn" }`}
+          id={`${
+            rightBtnName === "MASS DELETE" ? "delete-product-btn" : "cancel-btn"
+          }`}
           onClick={rightBtnAction}
         >
           {rightBtnName}
-        </button>
+        </button> */}
       </div>
     </header>
   );
