@@ -5,10 +5,7 @@ const path = require("path");
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Serve static files from the .well-known directory
-app.use("/.well-known", express.static(path.join(__dirname, ".well-known")));
-
-// Proxy any other requests to the target server
+// Proxy any requests starting with /api to the target server
 app.use(
   "/api",
   createProxyMiddleware({
@@ -18,8 +15,17 @@ app.use(
     pathRewrite: {
       "^/api": "", // Remove /api prefix when forwarding
     },
+    onProxyReq: (proxyReq, req, res) => {
+      // Log the request details before forwarding
+      console.log(`Proxying request to: ${proxyReq.path}`);
+      console.log("Request Method:", req.method);
+      console.log("Request Headers:", req.headers);
+    },
   })
 );
+
+// Serve static files from the .well-known directory
+app.use("/.well-known", express.static(path.join(__dirname, ".well-known")));
 
 // Fallback to serving the index.html file for SPA
 app.get("*", (req, res) => {
