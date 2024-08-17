@@ -6,9 +6,11 @@ const Product = ({ product, handleCheckboxChange }) => {
     <div className="product" key={product.sku}>
       <input
         id="check"
-        class="delete-checkbox"
         type="checkbox"
-        onChange={() => handleCheckboxChange(product.sku)}
+        name="selectedSkus"
+        class="delete-checkbox"
+        value={product.sku}
+        //onChange={(e) => handleCheckboxChange(e, product.sku)} 
       />
       <div>{product.sku}</div>
       <div>{product.name}</div>

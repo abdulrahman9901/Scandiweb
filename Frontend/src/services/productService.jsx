@@ -9,7 +9,27 @@ export const getProducts = async () => {
 };
 
 export const addProduct = async (product) => {
-  await axios.post(API_URL, product);
+  try {
+    const response = await axios.post(
+      `${API_URL}`,
+      {
+        action: "add",
+        sku: product.sku,
+        name: product.name,
+        price: product.price,
+        attributes: product.attributes,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Failed to add product:", error);
+    throw error;
+  }
 };
 
 export const updateProduct = async (product) => {
@@ -19,11 +39,12 @@ export const updateProduct = async (product) => {
 
 export const deleteProducts = async (skus) => {
   try {
-    const response = await axios.delete(API_URL, {
+    const response = await axios.post(API_URL, {
       headers: {
         "Content-Type": "application/json",
       },
-      data: { skus }, // Axios expects `data` in the request body for DELETE
+      skus , // Axios expects `data` in the request body for DELETE
+      action:"delete"
     });
     return response.data;
   } catch (error) {

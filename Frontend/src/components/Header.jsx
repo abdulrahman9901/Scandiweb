@@ -26,26 +26,7 @@ const Header =  ({
             {leftBtnName}
           </button>
         )}
-        {rightBtnName === "MASS DELETE" ? (
-          // <form onSubmit={(e)=>rightBtnAction(e)}>
-          //   <button className="rightBtn" id="delete-product-btn" type="submit">
-          //     {rightBtnName}
-          //   </button>
-          // </form>
-          <input
-            type="submit"
-            className="rightBtn"
-            id="delete-product-btn"
-            value="MASS DELETE"
-            name="MASS DELETE"
-            onClick={rightBtnAction}
-          />
-        ) : (
-          <button className="Cancel" id="cancel-btn" onClick={rightBtnAction}>
-            {rightBtnName}
-          </button>
-        )}
-        {/* <button
+        <button
           className={classNames({
             cancelBtn: rightBtnName === "Cancel",
             rightBtn: rightBtnName === "MASS DELETE",
@@ -56,7 +37,7 @@ const Header =  ({
           onClick={rightBtnAction}
         >
           {rightBtnName}
-        </button> */}
+        </button>
       </div>
     </header>
   );

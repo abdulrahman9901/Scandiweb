@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState ,  useRef  } from "react";
 import ProductList from "../components/ProductsList";
 import { deleteProducts} from "../services/productService";
 import Footer from "../components/Footer";
@@ -6,28 +6,44 @@ import { useData } from "../contexts/DataContext";
 import useFetchProducts from "../hooks/useFetchProducts";
 import Header from "../components/Header";
 const ProductListPage = () => {
- const [selectedSkus, setSelectedSkus] = useState([]);
- const { setNeedsRefetch, needsRefetch } = useData();
- const { products, isLoading } = useFetchProducts(
-   needsRefetch,
-   setNeedsRefetch
- );
+  const [selectedSkus, setSelectedSkus] = useState([]);
+  const { setNeedsRefetch, needsRefetch } = useData();
+  const { products, isLoading } = useFetchProducts(
+    needsRefetch,
+    setNeedsRefetch
+  );
+  const formRef = useRef(null); // Create a reference for the form
 
-  const handleDeleteSelected = async (e) => {
-    e.preventDefault();
-    try {
-      if (selectedSkus.length > 0) {
-        await deleteProducts(selectedSkus);
-      } else {
-        console.log("No products selected for deletion.");
-      }
-    } catch (error) {
-      console.error("Failed to delete products:", error);
-    } finally{
-        setSelectedSkus([]);
-        setNeedsRefetch(true);
+  const handleMassDelete = () => {
+    if (formRef.current) {
+      handleDeleteSelected({
+        target: formRef.current,
+        preventDefault: () => {},
+      });
     }
   };
+
+ const handleDeleteSelected = async (e) => {
+   e.preventDefault(); 
+
+   const formData = new FormData(e.target);
+  
+   const selectedSkus = formData.getAll("selectedSkus");
+   console.log("selectedSkus:", selectedSkus);
+
+   try {
+     if (selectedSkus.length > 0) {
+       await deleteProducts(selectedSkus); // Pass the array of SKUs for deletion
+       setSelectedSkus([]); // Clear selected SKUs
+       setNeedsRefetch(true); // Refetch product list after deletion
+     } else {
+       console.log("No products selected for deletion.");
+     }
+   } catch (error) {
+     console.error("Failed to delete products:", error);
+   }
+ };
+
 
   return (
     <div className="product-list-page">
@@ -35,7 +51,7 @@ const ProductListPage = () => {
         title="Product List"
         leftBtnAction={() => {}}
         leftBtnName="ADD"
-        rightBtnAction={handleDeleteSelected}
+        rightBtnAction={handleMassDelete}
         rightBtnName="MASS DELETE"
         ahref="/add-product"
       />
@@ -44,7 +60,8 @@ const ProductListPage = () => {
       ) : (
         <ProductList
           products={products}
-          selectedSkus={selectedSkus}
+          formRef={formRef}
+          handleDeleteSelected={handleDeleteSelected}
           setSelectedSkus={setSelectedSkus}
         />
       )}
