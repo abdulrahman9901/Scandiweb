@@ -19,7 +19,7 @@ const ProductListPage = () => {
       if (selectedSkus.length > 0) {
         await deleteProducts(selectedSkus);
       } else {
-        alert("No products selected for deletion.");
+        console.log("No products selected for deletion.");
       }
     } catch (error) {
       console.error("Failed to delete products:", error);
