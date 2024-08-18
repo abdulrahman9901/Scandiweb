@@ -3,47 +3,32 @@ import Footer from "../components/Footer";
 import { useData } from "../contexts/DataContext";
 import useFetchProducts from "../hooks/useFetchProducts";
 import Header from "../components/Header";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 
-
-// Main ProductListPage Component
 const ProductListPage = () => {
-  const [selectedSkus, setSelectedSkus] = useState([]);
   const { setNeedsRefetch, needsRefetch } = useData();
   const { products, isLoading } = useFetchProducts(
-      needsRefetch,
-      setNeedsRefetch
-    );
+    needsRefetch,
+    setNeedsRefetch
+  );
   const formRef = useRef(null); // Create a reference for the form
 
   // Handler for mass deletion
-  const handleMassDelete = () => {
-    if (formRef.current) {
-      handleDeleteSelected({
-        target: formRef.current,
-        preventDefault: () => {},
-      });
-    }
-  };
+  const handleMassDelete = async (e) => {
+    e.preventDefault(); // Ensure that the default form action (redirect) is prevented
 
-  // Function to handle deletion of selected products
-  const handleDeleteSelected = async (e) => {
-    e.preventDefault();
-
-    const formData = new FormData(e.target);
+    const formData = new FormData(formRef.current);
     const selectedSkus = formData.getAll("selectedSkus");
-    console.log("selectedSkus:", selectedSkus);
-
-    try {
-      if (selectedSkus.length > 0) {
+    console.log("selectedSkus from form ", selectedSkus);
+    if (selectedSkus.length > 0) {
+      try {
         await deleteProducts(selectedSkus);
-        setSelectedSkus([]); // Clear selected SKUs after deletion
         setNeedsRefetch(true); // Trigger a refetch of products
-      } else {
-        console.log("No products selected for deletion.");
+      } catch (error) {
+        console.error("Failed to delete products:", error);
       }
-    } catch (error) {
-      console.error("Failed to delete products:", error);
+    } else {
+      console.log("No products selected for deletion.");
     }
   };
 
@@ -54,19 +39,14 @@ const ProductListPage = () => {
         title="Product List"
         leftBtnAction={() => {}}
         leftBtnName="ADD"
-        rightBtnAction={handleMassDelete}
+        rightBtnAction={handleMassDelete} // Call handleMassDelete on button click
         rightBtnName="MASS DELETE"
         ahref="/add-product"
       />
       {isLoading ? (
         <p>Loading products...</p>
       ) : (
-        <form
-          ref={formRef}
-          className="product-list"
-          method="post"
-          onSubmit={handleDeleteSelected} // This handles the deletion logic
-        >
+        <form ref={formRef} className="product-list">
           {products.map((product) => (
             <div className="product-list-item" key={product.sku}>
               <div className="product" key={product.sku}>
@@ -74,13 +54,6 @@ const ProductListPage = () => {
                   type="checkbox"
                   name="selectedSkus"
                   value={product.sku}
-                  onChange={() => {
-                    setSelectedSkus((prevState) =>
-                      prevState.includes(product.sku)
-                        ? prevState.filter((item) => item !== product.sku)
-                        : [...prevState, product.sku]
-                    );
-                  }}
                 />
                 <div>{product.sku}</div>
                 <div>{product.name}</div>
@@ -95,9 +68,10 @@ const ProductListPage = () => {
           ))}
         </form>
       )}
-       <Footer />
+      <Footer />
     </div>
   );
 };
 
 export default ProductListPage;
+
