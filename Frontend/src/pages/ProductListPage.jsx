@@ -19,7 +19,7 @@ const ProductListPage = () => {
   };
 
   // Handler for mass deletion
-  const handleMassDelete = async () => {
+  const handleMassDelete = async (e) => {
     e.preventDefault(); // Ensure that the default form action (redirect) is prevented
     const allSkus = extractSkus(); // Get all SKUs from the product list
     const formData = new FormData(formRef.current);
@@ -34,7 +34,6 @@ const ProductListPage = () => {
         console.log("No products selected. Deleting all products.");
         await deleteProducts(allSkus); // Use allSkus to delete all
       }
-      setSelectedSkus([]); // Clear selected SKUs after deletion
       setNeedsRefetch(true); // Trigger a refetch of products
     } catch (error) {
       console.error("Failed to delete products:", error);
