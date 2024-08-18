@@ -20,12 +20,14 @@ const ProductListPage = () => {
 
   // Handler for mass deletion
   const handleMassDelete = async () => {
+    e.preventDefault(); // Ensure that the default form action (redirect) is prevented
     const allSkus = extractSkus(); // Get all SKUs from the product list
+    const formData = new FormData(formRef.current);
+    const selectedSkus = formData.getAll("selectedSkus");
+    console.log("Selected SKUs for deletion:", selectedSkus);
 
     try {
       if (selectedSkus.length > 0) {
-        // Delete only selected products
-        console.log("Selected SKUs for deletion:", selectedSkus);
         await deleteProducts(selectedSkus);
       } else {
         // No SKUs selected, delete all products
