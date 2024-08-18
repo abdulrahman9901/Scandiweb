@@ -13,22 +13,29 @@ const ProductListPage = () => {
   );
   const formRef = useRef(null); // Create a reference for the form
 
-  // Handler for mass deletion
-  const handleMassDelete = async (e) => {
-    e.preventDefault(); // Ensure that the default form action (redirect) is prevented
+  // Extract SKUs from the product list
+  const extractSkus = () => {
+    return products.map((product) => product.sku);
+  };
 
-    const formData = new FormData(formRef.current);
-    const selectedSkus = formData.getAll("selectedSkus");
-    console.log("selectedSkus from form ", selectedSkus);
-    if (selectedSkus.length > 0) {
-      try {
+  // Handler for mass deletion
+  const handleMassDelete = async () => {
+    const allSkus = extractSkus(); // Get all SKUs from the product list
+
+    try {
+      if (selectedSkus.length > 0) {
+        // Delete only selected products
+        console.log("Selected SKUs for deletion:", selectedSkus);
         await deleteProducts(selectedSkus);
-        setNeedsRefetch(true); // Trigger a refetch of products
-      } catch (error) {
-        console.error("Failed to delete products:", error);
+      } else {
+        // No SKUs selected, delete all products
+        console.log("No products selected. Deleting all products.");
+        await deleteProducts(allSkus); // Use allSkus to delete all
       }
-    } else {
-      console.log("No products selected for deletion.");
+      setSelectedSkus([]); // Clear selected SKUs after deletion
+      setNeedsRefetch(true); // Trigger a refetch of products
+    } catch (error) {
+      console.error("Failed to delete products:", error);
     }
   };
 
