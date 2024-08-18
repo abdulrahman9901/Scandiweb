@@ -1,18 +1,19 @@
-import React, { useState, useRef } from "react";
-import ProductList from "../components/ProductsList";
 import { deleteProducts } from "../services/productService";
 import Footer from "../components/Footer";
 import { useData } from "../contexts/DataContext";
 import useFetchProducts from "../hooks/useFetchProducts";
 import Header from "../components/Header";
+import React, { useState, useRef, useEffect } from "react";
 
+
+// Main ProductListPage Component
 const ProductListPage = () => {
   const [selectedSkus, setSelectedSkus] = useState([]);
   const { setNeedsRefetch, needsRefetch } = useData();
   const { products, isLoading } = useFetchProducts(
-    needsRefetch,
-    setNeedsRefetch
-  );
+      needsRefetch,
+      setNeedsRefetch
+    );
   const formRef = useRef(null); // Create a reference for the form
 
   // Handler for mass deletion
@@ -46,6 +47,7 @@ const ProductListPage = () => {
     }
   };
 
+  // Render logic
   return (
     <div className="product-list-page">
       <Header
@@ -59,14 +61,41 @@ const ProductListPage = () => {
       {isLoading ? (
         <p>Loading products...</p>
       ) : (
-        <ProductList
-          products={products}
-          formRef={formRef}
-          handleDeleteSelected={handleDeleteSelected}
-          setSelectedSkus={setSelectedSkus}
-        />
+        <form
+          ref={formRef}
+          className="product-list"
+          method="post"
+          onSubmit={handleDeleteSelected} // This handles the deletion logic
+        >
+          {products.map((product) => (
+            <div className="product-list-item" key={product.sku}>
+              <div className="product" key={product.sku}>
+                <input
+                  type="checkbox"
+                  name="selectedSkus"
+                  value={product.sku}
+                  onChange={() => {
+                    setSelectedSkus((prevState) =>
+                      prevState.includes(product.sku)
+                        ? prevState.filter((item) => item !== product.sku)
+                        : [...prevState, product.sku]
+                    );
+                  }}
+                />
+                <div>{product.sku}</div>
+                <div>{product.name}</div>
+                <div>{product.price} $</div>
+                {Object.entries(product.attributes).map(([key, value]) => (
+                  <div key={key}>
+                    {key}: {value}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </form>
       )}
-      <Footer />
+       <Footer />
     </div>
   );
 };
