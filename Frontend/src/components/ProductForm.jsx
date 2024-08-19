@@ -134,7 +134,7 @@ const ProductForm = ({ product , setProduct }) => {
                 />
               </div>
               <div className="product-input-field">
-                <label htmlFor="width">Width (CM) </label>
+                <label htmlFor="width">Width  (CM)</label>
                 <input
                   type="number"
                   id="width"

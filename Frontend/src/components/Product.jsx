@@ -5,12 +5,6 @@ const Product = ({ product, handleCheckboxChange }) => {
 
   return (
     <div className="product" key={sku}>
-      <input
-        type="checkbox"
-        name="selectedSkus"
-        value={sku}
-        onChange={() => handleCheckboxChange(sku)} // Ensure this is uncommented
-      />
       <div>{sku}</div>
       <div>{name}</div>
       <div>{price} $</div>

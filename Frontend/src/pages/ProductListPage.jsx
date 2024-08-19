@@ -1,11 +1,15 @@
 import React, { useState } from "react";
+import ProductList from "../components/ProductsList";
 import { deleteProducts } from "../services/productService";
 import Footer from "../components/Footer";
 import { useData } from "../contexts/DataContext";
 import useFetchProducts from "../hooks/useFetchProducts";
 import Header from "../components/Header";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import Alert from "@mui/material/Alert";
 
-// Main ProductListPage Component
 const ProductListPage = () => {
   const [selectedSkus, setSelectedSkus] = useState([]);
   const { setNeedsRefetch, needsRefetch } = useData();
@@ -14,65 +18,73 @@ const ProductListPage = () => {
     setNeedsRefetch
   );
 
-  // Handler for mass deletion
-  const handleMassDelete = async () => {
-    if (selectedSkus.length > 0) {
-      try {
+  const [open, setOpen] = React.useState(false);
+  const [msg, setMsg] = React.useState("");
+
+  const alertOpen = () => {
+    setOpen(true);
+  };
+
+  const alertClose = () => {
+    setOpen(false);
+  };
+
+  const handleDeleteSelected = async () => {
+    try {
+      if (selectedSkus.length > 0) {
         await deleteProducts(selectedSkus);
-        setSelectedSkus([]); // Clear selected SKUs after deletion
-        setNeedsRefetch(true); // Trigger a refetch of products
-      } catch (error) {
-        console.error("Failed to delete products:", error);
+        setSelectedSkus([]);
+        setNeedsRefetch(true);
+      } else {
+         setMsg("No products selected for deletion.");
+         alertOpen();
       }
-    } else {
-      console.log("No products selected for deletion.");
+    } catch (error) {
+      console.error("Failed to delete products:", error);
+      setMsg("Failed to delete products");
+      alertOpen();
     }
   };
 
-  // Render logic
+  window.onload = () => {
+    const loadTime = performance.now(); // Measures the time it took to load the page
+    console.log(`Page load time: ${loadTime}ms`);
+  };
+
   return (
     <div className="product-list-page">
       <Header
         title="Product List"
         leftBtnAction={() => {}}
         leftBtnName="ADD"
-        rightBtnAction={handleMassDelete}
+        rightBtnAction={handleDeleteSelected}
         rightBtnName="MASS DELETE"
         ahref="/add-product"
       />
       {isLoading ? (
         <p>Loading products...</p>
       ) : (
-        <div className="product-list">
-          {products.map((product) => (
-            <div className="product-list-item" key={product.sku}>
-              <div className="product" key={product.sku}>
-                <input
-                  type="checkbox"
-                  className="custom-control-input delete-checkbox"
-                  name="selectedSkus"
-                  value={product.sku}
-                  onChange={() => {
-                    setSelectedSkus((prevState) =>
-                      prevState.includes(product.sku)
-                        ? prevState.filter((item) => item !== product.sku)
-                        : [...prevState, product.sku]
-                    );
-                  }}
-                />
-                <div>{product.sku}</div>
-                <div>{product.name}</div>
-                <div>{product.price} $</div>
-                {Object.entries(product.attributes).map(([key, value]) => (
-                  <div key={key}>
-                    {key}: {value}
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
+        <ProductList
+          products={products}
+          selectedSkus={selectedSkus}
+          setSelectedSkus={setSelectedSkus}
+        />
       )}
+      <Dialog
+        open={open}
+        onClose={alertClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            <Alert variant="outlined" severity="error">
+              {msg}
+            </Alert>
+          </DialogContentText>
+        </DialogContent>
+      </Dialog>
+      
       <Footer />
     </div>
   );

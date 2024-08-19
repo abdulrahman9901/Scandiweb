@@ -25,10 +25,19 @@ export const addProduct = async (product) => {
         },
       }
     );
+
+    // Check if the response contains the word "Error"
+    if (response.data.error) {
+      console.error("Server error:", response.data);
+      return { error: response.data.error }; // Return the error message from the server
+    }
+
+    // If no error, return the successful response data
     return response.data;
   } catch (error) {
+    // Catch any network or server-related error
     console.error("Failed to add product:", error);
-    throw error;
+    return { error: "Failed to add product. Please try again." };
   }
 };
 

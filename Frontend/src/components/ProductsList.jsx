@@ -1,39 +1,32 @@
 import Product from "./Product";
 import React from "react";
 
-const ProductList = ({
-  products = [],
-  formRef,
-  handleDeleteSelected,
-  setSelectedSkus,
-}) => {
-  const handleCheckboxChange = (sku) => {
-    setSelectedSkus((prevState) =>
-      prevState.includes(sku)
-        ? prevState.filter((item) => item !== sku)
-        : [...prevState, sku]
-    );
-  };
+const ProductList = React.memo(
+  ({ products = [], selectedSkus, setSelectedSkus }) => {
+    const handleCheckboxChange = (sku) => {
+      setSelectedSkus((prevState) =>
+        prevState.includes(sku)
+          ? prevState.filter((item) => item !== sku)
+          : [...prevState, sku]
+      );
+    };
 
-  return (
-    <form
-      ref={formRef}
-      className="product-list"
-      method="post" // Ensure that the backend expects POST data from this form
-      onSubmit={handleDeleteSelected} // Function to handle form submission
-    >
-      {products.map((product) => (
-        <div className="product-list-item" key={product.sku}>
-          <Product
-            product={product}
-            handleCheckboxChange={handleCheckboxChange}
-          />
-        </div>
-      ))}
-      {/* Optional: Add a submit button if needed */}
-      <button type="submit">Delete Selected</button>
-    </form>
-  );
-};
+    return (
+      <main className="product-list">
+        {products.map((product) => (
+          <div className="product-list-item" key={product.sku}>
+            <input
+              type="checkbox"
+              checked={selectedSkus.includes(product.sku)}
+              onChange={() => handleCheckboxChange(product.sku)}
+              className="delete-checkbox"
+            />
+            <Product product={product} />
+          </div>
+        ))}
+      </main>
+    );
+  }
+);
 
 export default ProductList;

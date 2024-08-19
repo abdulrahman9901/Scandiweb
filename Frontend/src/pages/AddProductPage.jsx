@@ -61,12 +61,13 @@ const AddProductPage = () => {
       }else{
         console.log("product : ", trimmedProduct);
         try{
-          await addProduct(trimmedProduct);
+          const res = await addProduct(trimmedProduct);
+          if(res.error)
+              throw res.error
           setNeedsRefetch(true);
           navigate("/");
         }catch(error){
-          const errorMessage =error.response?.data?.message || "An unexpected error occurred";
-          setMsg(errorMessage);
+          setMsg(error);
           alertOpen();
         }
       }
