@@ -1,4 +1,4 @@
 <?php
-$config = include __DIR__ . '/../../config/databaseConfig.php';
+$config = include __DIR__ . '/databaseConfig.php';
 print_r($config);
 ?>

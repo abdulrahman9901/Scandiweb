@@ -5,7 +5,7 @@ class ProductDatabase {
     private $table = 'products';
 
     public function __construct() {
-        $config = include __DIR__ . '/../../config/databaseConfig.php';
+        $config = include __DIR__ . '/databaseConfig.php';
         $dsn = "mysql:host={$config['host']};dbname={$config['db']};charset={$config['charset']}";
         $options = [
             PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
@@ -22,14 +22,13 @@ class ProductDatabase {
     }
 
     public function createTable() {
-        $sql = "CREATE TABLE IF NOT EXISTS $this->table (
-            SKU VARCHAR(255) NOT NULL UNIQUE,
-            Name VARCHAR(255) NOT NULL,
-            Price DECIMAL(10, 2) NOT NULL,
-            Attributes TEXT,
-            PRIMARY KEY (SKU)
-        )";
-
+         $sql = "CREATE TABLE IF NOT EXISTS $this->table (
+        ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        SKU VARCHAR(255) NOT NULL UNIQUE,
+        Name VARCHAR(255) NOT NULL,
+        Price DECIMAL(10, 2) NOT NULL,
+        Attributes TEXT
+    	)";
         $this->pdo->exec($sql);
     }
 
@@ -81,7 +80,7 @@ class ProductDatabase {
     }
 
     public function getAllProducts() {
-        $sql = "SELECT * FROM $this->table";
+        $sql = "SELECT * FROM $this->table ORDER BY ID";
         $stmt = $this->pdo->query($sql);
         $products = [];
 

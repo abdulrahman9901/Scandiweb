@@ -1,10 +1,10 @@
 <?php
 
-require_once __DIR__ . '/../Models/Product.php';
-require_once __DIR__ . '/../Models/Book.php';
-require_once __DIR__ . '/../Models/DVD.php';
-require_once __DIR__ . '/../Models/Furniture.php';
-require_once __DIR__ . '/../Database/ProductDatabase.php';
+require_once __DIR__ . '/Product.php';
+require_once __DIR__ . '/Book.php';
+require_once __DIR__ . '/DVD.php';
+require_once __DIR__ . '/Furniture.php';
+require_once __DIR__ . '/ProductDatabase.php';
 
 // Function to populate initial data
 function populateInitialData(ProductDatabase $db) {

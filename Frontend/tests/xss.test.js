@@ -5,7 +5,7 @@ test.describe("XSS", () => {
   test("Add a product with XSS", async ({ page }) => {
     await deleteProducts(page);
 
-    await page.goto("https://scandiweb-wine.vercel.app/");
+    await page.goto("https://scandiweb-wine.vercel.app/", { timeout: 5000 });
 
     await page.getByRole("link", { name: "ADD" }).click();
 

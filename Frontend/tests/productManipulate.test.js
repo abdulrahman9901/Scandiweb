@@ -3,13 +3,13 @@ import { deleteProducts } from "./deleteProduct";
 
 test.describe("Product manipulation", () => {
   test("Remove and add different products", async ({ page }) => {
-    await page.goto("https://scandiweb-wine.vercel.app/", { timeout: 10000 });
 
     // wait to ensure checkboxes are visible
-    // Introducing a delay of 5 seconds (2000 milliseconds) to make sure page loaded 
-
     /***  MODIFICATION STARTS */
-    await page.waitForTimeout(5000);
+        await page.goto("https://scandiweb-wine.vercel.app/", {
+          timeout: 5000,
+        });
+    await page.waitForTimeout(500);
     /***  MODIFICATION ENDS */
 
     const checkboxes = await page.locator('input[type="checkbox"]').all();

@@ -2,10 +2,11 @@ import { expect } from "@playwright/test";
 
 export async function deleteProducts(page) {
   try {
-    await page.goto("https://scandiweb-wine.vercel.app/");
-
     /***  MODIFICATION STARTS */
     // wait to ensure checkboxes are visible
+        await page.goto("https://scandiweb-wine.vercel.app/", {
+          timeout: 5000,
+        });
     await page.locator('input[type="checkbox"]').first().waitFor({
       state: "visible",
       timeout: 10000,

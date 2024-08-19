@@ -1,10 +1,10 @@
 <?php
+require_once __DIR__ . '/Product.php';
+require_once __DIR__ . '/DVD.php';
+require_once __DIR__ . '/Book.php';
+require_once __DIR__ . '/Furniture.php';
+require_once __DIR__ . '/ProductDatabase.php';
 
-require_once __DIR__ . '/../app/Models/Product.php';
-require_once __DIR__ . '/../app/Models/DVD.php';
-require_once __DIR__ . '/../app/Models/Book.php';
-require_once __DIR__ . '/../app/Models/Furniture.php';
-require_once __DIR__ . '/../app/Database/ProductDatabase.php';
 
 header('Content-Type: application/json');
 
@@ -24,6 +24,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     header("Access-Control-Allow-Headers: Content-Type, Authorization");
     exit;
 }
+
+
 // Enable error reporting for debugging
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -62,23 +64,50 @@ try {
         case 'POST':
             if ($path[0] === 'products') {
                 $data = json_decode(file_get_contents('php://input'), true);
-                if ($data && isset($data['sku']) && isset($data['name']) && isset($data['price']) && isset($data['attributes'])) {
-                    $sku = $data['sku'];
-                    $name = $data['name'];
-                    $price = $data['price'];
-                    $attributes = $data['attributes'];
 
-                    $product = createProductFromAttributes($sku, $name, $price, $attributes);
-                    if ($product) {
-                        $db->addProduct($product);
-                        echo json_encode(['message' => 'Product added successfully']);
+                // Determine action type: 'add' or 'delete'
+                $action = isset($data['action']) ? $data['action'] : null;
+
+                if ($action === 'add') {
+                    // Add product logic
+                    if (isset($data['sku']) && isset($data['name']) && isset($data['price']) && isset($data['attributes'])) {
+                        $sku = $data['sku'];
+                        $name = $data['name'];
+                        $price = $data['price'];
+                        $attributes = $data['attributes'];
+
+                        $product = createProductFromAttributes($sku, $name, $price, $attributes);
+                            
+                       try {
+                               if ($product) {
+                                       $db->addProduct($product);
+                                       echo json_encode(['message' => 'Product added successfully']);
+                               } else {
+                                       http_response_code(400);
+                                       echo json_encode(['message' => 'Invalid product attributes']);
+                               }
+                       } catch (Exception $e) {
+                               // Catch the exception thrown by the database
+                               echo json_encode(['error' => $e->getMessage()]);
+                       }
                     } else {
                         http_response_code(400);
-                        echo json_encode(['message' => 'Invalid product attributes']);
+                        echo json_encode(['message' => 'Invalid input']);
+                    }
+                } elseif ($action === 'delete') {
+                    // Delete products logic
+                    if (isset($data['skus']) && is_array($data['skus'])) {
+                        foreach ($data['skus'] as $sku) {
+                            $db->deleteProduct(trim($sku));
+                        }
+                        echo json_encode(['message' => 'Products deleted successfully']);
+                    } else {
+                        http_response_code(400);
+                        echo json_encode(['message' => 'Invalid input: ' . json_encode($data)]);
                     }
                 } else {
                     http_response_code(400);
-                    echo json_encode(['message' => 'Invalid input']);
+                    echo json_encode(['message' => 'Unknown action']);
                 }
             }
             break;
@@ -153,4 +182,5 @@ function createProductFromAttributes($sku, $name, $price, $attributes) {
     }
     return null;
 }
+
 ?>

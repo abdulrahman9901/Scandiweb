@@ -1,5 +1,12 @@
+# Enable rewriting engine
 RewriteEngine On
-RewriteBase /ScandiWeb/Backend/public/
+RewriteBase /
+
+# Allow access to .well-known directory
+RewriteCond %{REQUEST_URI} ^/\.well-known/ [NC]
+RewriteRule ^ - [L]
+
+# Continue with your existing conditions
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php?path_info=$1 [L,QSA]
